@@ -122,9 +122,9 @@ func httpNewRequest(method, urlStr string, body io.Reader) (*http.Request, error
 		if err != nil {
 			return nil, err
 		}
-		uEncoded.Opaque = "//" + uEncoded.Host + separator + bucketName + separator + encodedObjectName
+		uEncoded.Opaque = uEncoded.Host + separator + bucketName + separator + encodedObjectName
 	} else {
-		uEncoded.Opaque = "//" + uEncoded.Host + separator + bucketName
+		uEncoded.Opaque = uEncoded.Host + separator + bucketName
 	}
 	rc, ok := body.(io.ReadCloser)
 	if !ok && body != nil {
