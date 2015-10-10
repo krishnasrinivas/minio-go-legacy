@@ -604,6 +604,22 @@ func (a apiCore) presignedGetObject(bucket, object string, expires, offset, leng
 	return req.PreSignV2()
 }
 
+func (a apiCore) presignedPutObject(bucket, object string, expires int64) (string, error) {
+	if err := invalidArgumentError(object); err != nil {
+		return "", err
+	}
+	op := &operation{
+		HTTPServer: a.config.Endpoint,
+		HTTPMethod: "PUT",
+		HTTPPath:   separator + bucket + separator + object,
+	}
+	req, err := newPresignedRequest(op, a.config, expires)
+	if err != nil {
+		return "", err
+	}
+	return req.PreSignV2()
+}
+
 // getObjectRequest wrapper creates a new getObject request
 func (a apiCore) getObjectRequest(bucket, object string, offset, length int64) (*request, error) {
 	op := &operation{
